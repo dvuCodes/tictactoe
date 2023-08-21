@@ -1,8 +1,6 @@
 "use strict";
 
-// render the boxes 3x3
-// this is a module pattern
-
+// this is a module pattern (immediately invoked) for the gameboard
 function Gameboard() {
   const rows = 3;
   const columns = 3;
@@ -15,33 +13,18 @@ function Gameboard() {
     }
   }
 
+  // method to get gameboard
   const getBoard = () => board;
 
-  const printBoard = () => {
-    console.log(board);
-  };
+  // method to print game board
+  const printBoard = () => console.log(board);
 
-  return { board, getBoard, printBoard };
-}
-
-// function to add marks to a specific box and then tie it to the dom
-
-function Cell() {
-  const mark = "";
-
-  const getMark = () => mark;
-
-  const setMark = (player) => {
-    const mark = player;
-  };
-
-  return { getMark, setMark };
+  return { getBoard, printBoard };
 }
 
 function gameFlow(playerOneName = "Player One", playerTwoName = "Player Two") {
   const board = Gameboard();
 
-  // define the players and their marks
   const players = [
     {
       name: playerOneName,
@@ -53,12 +36,23 @@ function gameFlow(playerOneName = "Player One", playerTwoName = "Player Two") {
     },
   ];
 
-  const currentPlayer = players[0];
+  // init the active player as playerOne
+  let activePlayer = players[0];
 
+  const getActivePlayer = () => activePlayer;
+
+  // method to switch players
   const switchPlayers = () => {
-    currentPlayer = currentPlayer === players[0] ? players[1] : players[0];
+    activePlayer = activePlayer === players[0] ? players[1] : players[0];
   };
-}
 
-const game = Gameboard();
-game.printBoard();
+  const addMarks = (player, mark) => {};
+
+  return { players, getActivePlayer, switchPlayers, board };
+}
+// function to add marks to a specific box and then tie it to the dom
+
+const game = gameFlow();
+console.log(game.getActivePlayer());
+game.switchPlayers();
+console.log(game.getActivePlayer());
