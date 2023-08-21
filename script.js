@@ -52,9 +52,12 @@ function gameFlow(playerOneName = "Player One", playerTwoName = "Player Two") {
       mark: "O",
     },
   ];
-    
-    const switchPlayers = () => { 
-        const currentPlayer
+
+  const currentPlayer = players[0];
+
+  const switchPlayers = () => {
+    currentPlayer = currentPlayer === players[0] ? players[1] : players[0];
+  };
 }
 
 const game = Gameboard();
