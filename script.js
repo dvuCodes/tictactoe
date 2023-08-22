@@ -9,20 +9,36 @@ function Gameboard() {
   for (let i = 0; i < rows; i++) {
     board.push([]);
     for (let y = 0; y < columns; y++) {
-      board[i].push("");
+      board[i].push(Cell());
     }
   }
 
-  // method to get gameboard
+  // method to get Gameboard
   const getBoard = () => board;
 
   // method to print game board
-  const printBoard = () => console.log(board);
+  const printBoard = () => {
+    const mark = board.map((row) => row.map((cell) => cell.getMark()));
+    console.log(mark);
+  };
 
   return { getBoard, printBoard };
 }
 
-function gameFlow(playerOneName = "Player One", playerTwoName = "Player Two") {
+// function get mark and set the mark
+function Cell() {
+  let mark = "";
+
+  const getMark = () => mark;
+
+  const setMark = (newMark) => (mark = newMark);
+
+  return { getMark, setMark };
+}
+
+// function to create the game flow
+
+function GameFlow(playerOneName = "Player One", playerTwoName = "Player Two") {
   const board = Gameboard();
 
   const players = [
@@ -46,13 +62,30 @@ function gameFlow(playerOneName = "Player One", playerTwoName = "Player Two") {
     activePlayer = activePlayer === players[0] ? players[1] : players[0];
   };
 
-  const addMarks = (player, mark) => {};
+  // play round player picks a cell
+  // if cell === "" set setMark = (activePlayer.mark)
+
+  const dropMark = (cell) => {
+    if (cell === "") {
+      cell.setMark(activePlayer.mark);
+    }
+  };
+
+  const playRound = () => {
+    console.log(`It's ${activePlayer.name}'s turn`);
+    board.printBoard();
+    dropMark();
+    switchPlayers();
+  };
+
+  const printNewRound = () => board.printBoard();
+
+  // prints new round when the game starts
+  printNewRound();
 
   return { players, getActivePlayer, switchPlayers, board };
 }
-// function to add marks to a specific box and then tie it to the dom
 
-const game = gameFlow();
-console.log(game.getActivePlayer());
-game.switchPlayers();
-console.log(game.getActivePlayer());
+// function to add marks to a specific box and then tie it to the do
+
+const game = GameFlow();
