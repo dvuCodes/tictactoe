@@ -1,91 +1,92 @@
 "use strict";
 
-// this is a module pattern (immediately invoked) for the gameboard
-function Gameboard() {
+// function to render the gameboard
+const Gameboard = (() => {
   const rows = 3;
   const columns = 3;
   const board = [];
 
   for (let i = 0; i < rows; i++) {
     board.push([]);
-    for (let y = 0; y < columns; y++) {
+    for (let j = 0; j < columns; j++) {
       board[i].push(Cell());
     }
   }
 
-  // method to get Gameboard
+  // method to find the cell at a given row and column
+  const getCell = (row, columns) => board[row][columns];
+
   const getBoard = () => board;
 
-  // method to print game board
   const printBoard = () => {
-    const mark = board.map((row) => row.map((cell) => cell.getMark()));
-    console.log(mark);
+    const boardMappedWithValues = board.map((row) =>
+      row.map((cell) => cell.getValue())
+    );
+    console.log(boardMappedWithValues);
   };
 
-  return { getBoard, printBoard };
-}
+  return { getBoard, printBoard, getCell };
+})();
 
-// function get mark and set the mark
+// A cell represents a single cell on the gameboard
+// A cell can be empty or have a mark
+// A cell can be marked by a player
 function Cell() {
-  let mark = "";
+  let value = "";
 
-  const getMark = () => mark;
+  const getValue = () => value;
 
-  const setMark = (newMark) => (mark = newMark);
+  const setValue = (newValue) => (value = newValue);
 
-  return { getMark, setMark };
+  return { getValue, setValue };
 }
-
-// function to create the game flow
 
 function GameFlow(playerOneName = "Player One", playerTwoName = "Player Two") {
-  const board = Gameboard();
-
   const players = [
     {
-      name: playerOneName,
+      playerOneName: playerOneName,
       mark: "X",
     },
     {
-      name: playerTwoName,
+      playerTwoName: playerTwoName,
       mark: "O",
     },
   ];
 
-  // init the active player as playerOne
+  // defines the starting active player -- usually player one
   let activePlayer = players[0];
 
-  const getActivePlayer = () => activePlayer;
-
-  // method to switch players
-  const switchPlayers = () => {
+  const switchPlayer = () => {
     activePlayer = activePlayer === players[0] ? players[1] : players[0];
   };
 
-  // play round player picks a cell
-  // if cell === "" set setMark = (activePlayer.mark)
+  const printRound = () => {
+    Gameboard.printBoard();
 
-  const dropMark = (cell) => {
-    if (cell === "") {
-      cell.setMark(activePlayer.mark);
-    }
+    console.log(`${activePlayer.playerOneName} (${activePlayer.mark})'s turn`);
   };
 
-  const playRound = () => {
-    console.log(`It's ${activePlayer.name}'s turn`);
-    board.printBoard();
-    dropMark();
-    switchPlayers();
+  const dropMark = (row, column) => {
+    const cell = Gameboard.getCell(row, column);
+
+    if (cell.getValue() === "") {
+      cell.setValue(activePlayer.mark);
+    } else console.log(`Nothing happened`);
+
+    switchPlayer();
   };
 
-  const printNewRound = () => board.printBoard();
+  const playRound = (row, column) => {
+    dropMark(row, column);
+    switchPlayer();
+    printRound();
+  };
 
-  // prints new round when the game starts
-  printNewRound();
+  printRound();
 
-  return { players, getActivePlayer, switchPlayers, board };
+  return { dropMark, switchPlayer };
 }
 
-// function to add marks to a specific box and then tie it to the do
-
 const game = GameFlow();
+game.dropMark(0, 2);
+Gameboard.printBoard();
