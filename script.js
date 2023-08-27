@@ -13,6 +13,14 @@ const Gameboard = (() => {
     }
   }
 
+  // render cells onto DOM
+  const render = () => {
+    const row = document.createElement("div");
+    row.classList.add("row");
+    const column = document.createElement("div");
+    column.classList.add("column");
+  };
+
   // method to find the cell at a given row and column
   const getCell = (row, columns) => board[row][columns];
 
@@ -68,12 +76,12 @@ function GameFlow(playerOneName = "Player One", playerTwoName = "Player Two") {
 
   const dropMark = (row, column) => {
     const cell = Gameboard.getCell(row, column);
+    const mark = cell.getValue();
+    const activePlayerMark = activePlayer.mark;
 
-    if (cell.getValue() === "") {
-      cell.setValue(activePlayer.mark);
-    } else console.log(`Nothing happened`);
-
-    switchPlayer();
+    if (mark === "") {
+      cell.setValue(activePlayerMark);
+    }
   };
 
   const playRound = (row, column) => {
@@ -88,5 +96,3 @@ function GameFlow(playerOneName = "Player One", playerTwoName = "Player Two") {
 }
 
 const game = GameFlow();
-game.dropMark(0, 2);
-Gameboard.printBoard();
