@@ -12,6 +12,7 @@ header {
 
 body {
   margin: 0;
+  background-color: #264653;
 }
 
 main {
@@ -26,6 +27,7 @@ main {
   grid-template-columns: repeat(3, 1fr);
   width: 600px;
   height: 600px;
+  gap: 1rem;
 }
 
 .board-container div {
@@ -38,4 +40,8 @@ main {
   justify-content: center;
   align-items: center;
   font-size: 2rem;
+  border-radius: 20px;
+  background-color: #57a0bd13;
+  box-shadow: 0 6px 0 #0a1316;
+  cursor: pointer;
 }
