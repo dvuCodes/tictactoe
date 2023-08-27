@@ -2,6 +2,7 @@
 import Cell from "./utils/Cell.js"
 
 const boardContainerEl = document.getElementById('board-container')
+let gameOver = false
 
 // function to render the gameboard
 const Gameboard = (() => {
@@ -49,11 +50,11 @@ const Gameboard = (() => {
 function GameFlow(playerOneName = "Player One", playerTwoName = "Player Two") {
   const players = [
     {
-      playerOneName: playerOneName,
+      name: playerOneName,
       mark: "X",
     },
     {
-      playerTwoName: playerTwoName,
+      name: playerTwoName,
       mark: "O",
     },
   ];
@@ -68,8 +69,34 @@ function GameFlow(playerOneName = "Player One", playerTwoName = "Player Two") {
   const printRound = () => {
     Gameboard.printBoard();
 
-    console.log(`${activePlayer.playerOneName} (${activePlayer.mark})'s turn`);
+    console.log(`${activePlayer.name} (${activePlayer.mark})'s turn`);
   };
+
+  const checkWinner = (board, mark) => {
+    // definie winning combinations
+    const winningCombos = [
+      // Rows
+      [[0, 0], [0, 1], [0, 2]],
+      [[1, 0], [1, 1], [1, 2]],
+      [[2, 0], [2, 1], [2, 2]],
+      // Columns
+      [[0, 0], [1, 0], [2, 0]],
+      [[0, 1], [1, 1], [2, 1]],
+      [[0, 2], [1, 2], [2, 2]],
+      // Diagonals
+      [[0, 0], [1, 1], [2, 2]],
+      [[0, 2], [1, 1], [2, 0]]
+    ];
+
+    // iterate through winningCombos array to see if any combos are true
+    const isWinning = winningCombos.some(combo => combo.every(([row, col]) => {
+      const cell = board[row][col]
+      return cell ? cell.getValue() === mark : false
+    }))
+
+
+    return isWinning
+  }
 
   const dropMark = (row, column) => {
     const cell = Gameboard.getCell(row, column);
@@ -82,15 +109,8 @@ function GameFlow(playerOneName = "Player One", playerTwoName = "Player Two") {
     } else return alert('This spot is already taken')
   };
 
-  const playRound = (row, column) => {
-    dropMark(row, column);
-    switchPlayer();
-    printRound();
-  };
 
-  printRound();
-
-  return { dropMark, switchPlayer };
+  return { dropMark, switchPlayer, printRound, checkWinner };
 }
 
 Gameboard.renderBoard()
@@ -102,11 +122,18 @@ cellEL.forEach(cell => cell.addEventListener('click', e => {
   const row = +(e.target.dataset.rows)
   const columns = +(e.target.dataset.columns)
 
-  game.dropMark(row, columns)
+  if(!gameOver) {
+    game.dropMark(row, columns)
+  }
+
 
   const selectedCell = Gameboard.getCell(row, columns);
   const mark = selectedCell.getValue()
 
   cell.textContent = mark
+  if (game.checkWinner(Gameboard.getBoard(), mark)) {
+    console.log(`Game Over!. The winner is ${game.activePlayer}`)
+    gameOver = true
+  }
 }));
 
