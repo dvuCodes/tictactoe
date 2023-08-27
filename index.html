@@ -12,9 +12,20 @@
       <h1>A Tic Tac Toe Game</h1>
     </header>
 
+    <section class="game-info-container">
+      <div class="mark-container">XO</div>
+      <div class="turn-display">X turn</div>
+      <button class="reset-btn">Reset</button>
+    </section>
+
     <main>
       <div class="board-container" id="board-container"></div>
     </main>
+    <section class="score-container">
+      <div class="score-x">X: <span id="x-score">0</span></div>
+      <div class="score-ties">TIES: <span id="tie-score">0</span></div>
+      <div class="score-o">O: <span id="o-score">0</span></div>
+    </section>
     <script src="script.js" type="module"></script>
   </body>
 </html>
