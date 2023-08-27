@@ -1,5 +1,7 @@
 "use strict";
 
+const boardContainerEl = document.getElementById('board-container')
+
 // function to render the gameboard
 const Gameboard = (() => {
   const rows = 3;
@@ -14,11 +16,17 @@ const Gameboard = (() => {
   }
 
   // render cells onto DOM
-  const render = () => {
-    const row = document.createElement("div");
-    row.classList.add("row");
-    const column = document.createElement("div");
-    column.classList.add("column");
+  const renderBoard = () => {
+    for (let i = 0; i < rows; i++) {
+      for (let j = 0; j < columns; j++) {
+        const newCell = document.createElement('div');
+        newCell.classList.add('cell');
+        newCell.dataset.rows = i;
+        newCell.dataset.columns = j
+        boardContainerEl.appendChild(newCell);
+
+      }
+    }
   };
 
   // method to find the cell at a given row and column
@@ -33,7 +41,7 @@ const Gameboard = (() => {
     console.log(boardMappedWithValues);
   };
 
-  return { getBoard, printBoard, getCell };
+  return { getBoard, printBoard, getCell, renderBoard };
 })();
 
 // A cell represents a single cell on the gameboard
@@ -81,7 +89,8 @@ function GameFlow(playerOneName = "Player One", playerTwoName = "Player Two") {
 
     if (mark === "") {
       cell.setValue(activePlayerMark);
-    }
+          switchPlayer();
+    } else return alert('This spot is already taken')
   };
 
   const playRound = (row, column) => {
@@ -95,4 +104,20 @@ function GameFlow(playerOneName = "Player One", playerTwoName = "Player Two") {
   return { dropMark, switchPlayer };
 }
 
+Gameboard.renderBoard()
 const game = GameFlow();
+
+const cellEL = document.querySelectorAll('.cell');
+cellEL.forEach(cell => cell.addEventListener('click', e => {
+  const row = +(e.target.dataset.rows)
+  const columns = +(e.target.dataset.columns)
+
+  console.log({ row, columns })
+  game.dropMark(row, columns)
+
+  const selectedCell = Gameboard.getCell(row, columns);
+  const mark = selectedCell.getValue()
+
+  cell.textContent = mark
+}));
+
