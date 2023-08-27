@@ -1,4 +1,5 @@
 "use strict";
+import Cell from "./utils/Cell.js"
 
 const boardContainerEl = document.getElementById('board-container')
 
@@ -44,19 +45,6 @@ const Gameboard = (() => {
 
   return { getBoard, printBoard, getCell, renderBoard };
 })();
-
-// A cell represents a single cell on the gameboard
-// A cell can be empty or have a mark
-// A cell can be marked by a player
-function Cell() {
-  let value = "";
-
-  const getValue = () => value;
-
-  const setValue = (newValue) => (value = newValue);
-
-  return { getValue, setValue };
-}
 
 function GameFlow(playerOneName = "Player One", playerTwoName = "Player Two") {
   const players = [
