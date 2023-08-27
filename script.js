@@ -8,6 +8,7 @@ const Gameboard = (() => {
   const columns = 3;
   const board = [];
 
+  // renders 3x3 grid in our board array
   for (let i = 0; i < rows; i++) {
     board.push([]);
     for (let j = 0; j < columns; j++) {
@@ -89,7 +90,7 @@ function GameFlow(playerOneName = "Player One", playerTwoName = "Player Two") {
 
     if (mark === "") {
       cell.setValue(activePlayerMark);
-          switchPlayer();
+      switchPlayer();
     } else return alert('This spot is already taken')
   };
 
@@ -107,12 +108,12 @@ function GameFlow(playerOneName = "Player One", playerTwoName = "Player Two") {
 Gameboard.renderBoard()
 const game = GameFlow();
 
+// Iterating thorugh our cells and giving them the function to dropMark and DOM will update from the board array itself.
 const cellEL = document.querySelectorAll('.cell');
 cellEL.forEach(cell => cell.addEventListener('click', e => {
   const row = +(e.target.dataset.rows)
   const columns = +(e.target.dataset.columns)
 
-  console.log({ row, columns })
   game.dropMark(row, columns)
 
   const selectedCell = Gameboard.getCell(row, columns);
