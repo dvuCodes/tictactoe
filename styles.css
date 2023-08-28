@@ -19,6 +19,7 @@ header {
 }
 
 main {
+  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -184,4 +185,36 @@ main {
     transform: rotate(0deg);
     transition: all 0.2s ease-in-out;
   }
+}
+
+/* Modal */
+
+.winner-message-modal {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  width: 300px;
+  height: 200px;
+  border-radius: 20px;
+  background-color: #315c6d;
+  text-align: center;
+  padding: 1em;
+}
+
+.winner-message-modal h1 {
+  margin: auto;
+}
+
+.close-modal-btn {
+  margin-left: auto;
+  background-color: transparent;
+  color: whitesmoke;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+.hidden {
+  display: hidden;
 }
