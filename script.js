@@ -2,6 +2,8 @@
 import Cell from "./src/utils/Cell.js";
 
 const boardContainerEl = document.getElementById("board-container");
+const activeMarkerEl = document.getElementById('active-marker-el')
+
 let gameOver = false;
 
 // function to render the gameboard
@@ -60,6 +62,8 @@ function GameFlow(playerOneName = "Player One", playerTwoName = "Player Two") {
 
   // defines the starting active player -- usually player one
   let activePlayer = players[0];
+
+  const getActivePlayer = () => activePlayer
 
   const switchPlayer = () => {
     activePlayer = activePlayer === players[0] ? players[1] : players[0];
@@ -141,7 +145,7 @@ function GameFlow(playerOneName = "Player One", playerTwoName = "Player Two") {
     } else return alert("This spot is already taken");
   };
 
-  return { dropMark, switchPlayer, printRound, checkWinner };
+  return { dropMark, switchPlayer, printRound, checkWinner, getActivePlayer };
 }
 
 Gameboard.renderBoard();
@@ -154,6 +158,7 @@ cellEL.forEach((cell) =>
     const row = +e.target.dataset.rows;
     const columns = +e.target.dataset.columns;
 
+    // disables players from dropping a new mark when the game over state is changed to true
     if (!gameOver) {
       game.dropMark(row, columns);
     }
@@ -166,6 +171,8 @@ cellEL.forEach((cell) =>
     }
 
     cell.textContent = mark;
+
+    activeMarkerEl.textContent = game.getActivePlayer().mark
 
     if (game.checkWinner(Gameboard.getBoard(), mark)) {
       console.log(`Game Over!. The winner is ${game.activePlayer}`);

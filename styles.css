@@ -66,7 +66,7 @@ footer h3 {
 }
 
 .cell:hover {
-  transform: scale(1.1);
+  transform: scale(1.05);
   transition: all 0.2s ease-in-out;
 }
 
@@ -130,9 +130,9 @@ main {
   cursor: pointer;
   margin: auto;
   background-color: #5295af;
-  font-weight: 500;
+  font-weight: 800;
   font-size: 1.2rem;
-  color: whitesmoke;
+  color: #whitesmoke;
 }
 
 .game-logo {
@@ -167,7 +167,7 @@ main {
 }
 
 .reset-btn:hover {
-  transform: scale(1.1);
+  transform: scale(1.05);
   transition: all 0.2s ease-in-out;
 
   .reset-btn-icon {
