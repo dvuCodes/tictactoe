@@ -161,7 +161,12 @@ cellEL.forEach((cell) =>
     const selectedCell = Gameboard.getCell(row, columns);
     const mark = selectedCell.getValue();
 
+    if (mark === "O") {
+      cell.style.color = "rgb(245, 212, 25)"
+    }
+
     cell.textContent = mark;
+
     if (game.checkWinner(Gameboard.getBoard(), mark)) {
       console.log(`Game Over!. The winner is ${game.activePlayer}`);
       gameOver = true;

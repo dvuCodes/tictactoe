@@ -61,7 +61,18 @@ footer h3 {
   border-radius: 20px;
   background-color: #5295af;
   box-shadow: 0 6px 1px #070b0c4d;
+  color: aquamarine;
   cursor: pointer;
+}
+
+.cell:hover {
+  transform: scale(1.1);
+  transition: all 0.2s ease-in-out;
+}
+
+.cell:not(hover) {
+  transform: scale(1);
+  transition: all 0.2s ease-in-out;
 }
 
 .game-info-container {
@@ -161,6 +172,16 @@ main {
 
   .reset-btn-icon {
     transform: rotate(90deg);
+    transition: all 0.2s ease-in-out;
+  }
+}
+
+.reset-btn:not(hover) {
+  transform: scale(1);
+  transition: all 0.2s ease-in-out;
+
+  .reset-btn-icon {
+    transform: rotate(0deg);
     transition: all 0.2s ease-in-out;
   }
 }
