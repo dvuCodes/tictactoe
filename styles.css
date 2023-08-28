@@ -7,7 +7,7 @@
 body {
   margin: 0;
   background-color: #264653;
-  font-family: 'Montserrat', sans-serif;
+  font-family: "Montserrat", sans-serif;
   min-height: 100vh;
   padding-top: 3rem;
   color: whitesmoke;
@@ -108,6 +108,7 @@ main {
   width: 100%;
   height: 55px;
   font-weight: bold;
+  color: #264653;
 }
 
 .score-x {
@@ -134,7 +135,7 @@ main {
   background-color: #5295af;
   font-weight: 800;
   font-size: 1.2rem;
-  color: #whitesmoke;
+  color: whitesmoke;
 }
 
 .game-logo {
@@ -142,11 +143,11 @@ main {
   text-align: center;
   width: 50px;
   font-weight: 800;
+}
 
-  .logo-img {
-    height: 45px;
-    width: 45px;
-  }
+.logo-img {
+  height: 45px;
+  width: 45px;
 }
 
 .reset-btn {
@@ -171,21 +172,21 @@ main {
 .reset-btn:hover {
   transform: scale(1.05);
   transition: all 0.2s ease-in-out;
+}
 
-  .reset-btn-icon {
-    transform: rotate(90deg);
-    transition: all 0.2s ease-in-out;
-  }
+.reset-btn:hover .reset-btn-icon {
+  transform: rotate(90deg);
+  transition: all 0.2s ease-in-out;
 }
 
 .reset-btn:not(hover) {
   transform: scale(1);
   transition: all 0.2s ease-in-out;
+}
 
-  .reset-btn-icon {
-    transform: rotate(0deg);
-    transition: all 0.2s ease-in-out;
-  }
+.reset-btn:not(hover) .reset-btn-icon {
+  transform: rotate(0deg);
+  transition: all 0.2s ease-in-out;
 }
 
 /* Modal */
