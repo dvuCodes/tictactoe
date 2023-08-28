@@ -4,7 +4,7 @@ import Cell from "./src/utils/Cell.js";
 const boardContainerEl = document.getElementById("board-container");
 const activeMarkerEl = document.getElementById('active-marker-el')
 const winningMessageModalEl = document.getElementById('winner-message-modal')
-    const closeModalBtn = document.getElementById('close-modal-btn')
+const closeModalBtn = document.getElementById('close-modal-btn')
 
 let gameOver = false;
 
@@ -15,15 +15,20 @@ const Gameboard = (() => {
   const board = [];
 
   // renders 3x3 grid in our board array
+  const renderBoardArray = () => {
   for (let i = 0; i < rows; i++) {
     board.push([]);
     for (let j = 0; j < columns; j++) {
       board[i].push(Cell());
+      }
     }
   }
 
+  renderBoardArray()
+
+
   // render cells onto DOM
-  const renderBoard = () => {
+  const renderDOMBoard = () => {
     for (let i = 0; i < rows; i++) {
       for (let j = 0; j < columns; j++) {
         const newCell = document.createElement("div");
@@ -34,6 +39,11 @@ const Gameboard = (() => {
       }
     }
   };
+
+  const resetBoard = () => {
+    const cellEl = document.querySelectorAll(".cell");
+    cellEl.forEach(cell => cell.textContent = "")
+  }
 
   // method to find the cell at a given row and column
   const getCell = (row, columns) => board[row][columns];
@@ -46,8 +56,8 @@ const Gameboard = (() => {
     );
     console.log(boardMappedWithValues);
   };
-
-  return { getBoard, printBoard, getCell, renderBoard };
+  
+  return { getBoard, printBoard, getCell, renderDOMBoard, resetBoard, renderBoardArray };
 })();
 
 function GameFlow(playerOneName = "Player One", playerTwoName = "Player Two") {
@@ -150,7 +160,7 @@ function GameFlow(playerOneName = "Player One", playerTwoName = "Player Two") {
   return { dropMark, switchPlayer, printRound, checkWinner, getActivePlayer };
 }
 
-Gameboard.renderBoard();
+Gameboard.renderDOMBoard();
 const game = GameFlow();
 
 // Iterating thorugh our cells and giving them the function to dropMark and DOM will update from the board array itself.
@@ -181,12 +191,13 @@ cellEL.forEach((cell) =>
       console.log(`Game Over!. The winner is ${game.activePlayer}`);
       gameOver = true;
       winningMessageModalEl.classList.add('show')
+      // resets board state
+      Gameboard.renderBoardArray()
     }
   })
 );
 
 closeModalBtn.addEventListener('click', () =>{
   winningMessageModalEl.classList.remove('show')
-}
-  
-)
+  // setTimeOut(   Gameboard.resetBoard(),1000)
+})
