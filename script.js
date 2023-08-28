@@ -4,6 +4,7 @@ import Cell from "./src/utils/Cell.js";
 const boardContainerEl = document.getElementById("board-container");
 const activeMarkerEl = document.getElementById('active-marker-el')
 const winningMessageModalEl = document.getElementById('winner-message-modal')
+    const closeModalBtn = document.getElementById('close-modal-btn')
 
 let gameOver = false;
 
@@ -183,3 +184,9 @@ cellEL.forEach((cell) =>
     }
   })
 );
+
+closeModalBtn.addEventListener('click', () =>{
+  winningMessageModalEl.classList.remove('show')
+}
+  
+)
