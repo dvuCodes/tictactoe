@@ -63,6 +63,7 @@ const Gameboard = (() => {
     }
   };
 
+  // resets the DOM board
   const resetDOMBoard = () => {
     const cellEl = document.querySelectorAll(".cell");
     cellEl.forEach((cell) => (cell.textContent = ""));
@@ -71,8 +72,10 @@ const Gameboard = (() => {
   // method to find the cell at a given row and column
   const getCell = (row, columns) => board[row][columns];
 
+  // method to get the board array
   const getBoard = () => board;
 
+  // method to print the board array
   const printBoard = () => {
     const boardMappedWithValues = board.map((row) =>
       row.map((cell) => cell.getValue())
@@ -207,11 +210,9 @@ cellEL.forEach((cell) =>
     const selectedCell = Gameboard.getCell(row, columns);
     const mark = selectedCell.getValue();
 
-    if (mark === "O") {
-      cell.style.color = "rgb(245, 212, 25)";
-    }
+    const markIcon = mark === "X" ? "cross-icon.png" : "circle-icon.png";
 
-    cell.textContent = mark;
+    cell.innerHTML = `<img class="mark-icons" src="./src/images/${markIcon}" />`;
 
     // dynamically changes the displayed active marker to the current players marker
     activeMarkerEl.textContent = game.getActivePlayer().mark;
@@ -225,7 +226,7 @@ cellEL.forEach((cell) =>
       Gameboard.resetBoardArray();
     }
     // if there game is not over, switch players
-    if (!GAMEOVER) {
+    if (!GAMEOVER && mark !== "") {
       game.switchPlayer();
     }
 
