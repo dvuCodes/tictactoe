@@ -37,7 +37,7 @@ footer {
 footer h3 {
   margin: 2rem auto;
   color: whitesmoke;
-  text-shadow: 0 0px 2px white;
+  text-shadow: 0 0px 1px whitesmoke;
 }
 
 .board-container {
