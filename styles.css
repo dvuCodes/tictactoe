@@ -32,9 +32,10 @@ footer {
   display: flex;
 }
 
-footer h2 {
+footer h3 {
   margin: 2rem auto;
-    color: whitesmoke;
+  color: whitesmoke;
+  text-shadow: 0 0px 2px white;
 }
 
 .board-container {
