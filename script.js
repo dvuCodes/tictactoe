@@ -42,6 +42,7 @@ const Gameboard = (() => {
 
   renderBoardArray();
 
+  // resets the board array
   const resetBoardArray = () => {
     while (board.length > 0) {
       board.pop();
@@ -62,7 +63,7 @@ const Gameboard = (() => {
     }
   };
 
-  const resetBoard = () => {
+  const resetDOMBoard = () => {
     const cellEl = document.querySelectorAll(".cell");
     cellEl.forEach((cell) => (cell.textContent = ""));
   };
@@ -84,7 +85,7 @@ const Gameboard = (() => {
     printBoard,
     getCell,
     renderDOMBoard,
-    resetBoard,
+    resetDOMBoard,
     resetBoardArray,
   };
 })();
@@ -250,7 +251,14 @@ cellEL.forEach((cell) =>
 closeModalBtn.addEventListener("click", () => {
   winningMessageModalEl.classList.remove("show");
   setTimeout(() => {
-    Gameboard.resetBoard();
+    Gameboard.resetDOMBoard();
     GAMEOVER = false;
   }, 1000);
+});
+
+document.getElementById("reset-btn").addEventListener("click", () => {
+  Gameboard.resetDOMBoard();
+  Gameboard.resetBoardArray();
+  updateScore(INITIAL_SCORE);
+  GAMEOVER = false;
 });

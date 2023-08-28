@@ -77,6 +77,11 @@ footer h3 {
   transition: all 0.2s ease-in-out;
 }
 
+.cell:active {
+  transform: scale(0.95);
+  transition: all 0.2s ease-in-out;
+}
+
 .game-info-container {
   display: flex;
   align-items: center;
@@ -150,6 +155,8 @@ main {
   width: 45px;
 }
 
+/* reset btn styles */
+
 .reset-btn {
   display: flex;
   justify-content: center;
@@ -186,6 +193,11 @@ main {
 
 .reset-btn:not(hover) .reset-btn-icon {
   transform: rotate(0deg);
+  transition: all 0.2s ease-in-out;
+}
+
+.reset-btn:active {
+  transform: scale(0.95);
   transition: all 0.2s ease-in-out;
 }
 
