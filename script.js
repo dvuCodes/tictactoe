@@ -3,6 +3,7 @@ import Cell from "./src/utils/Cell.js";
 
 const boardContainerEl = document.getElementById("board-container");
 const activeMarkerEl = document.getElementById('active-marker-el')
+const winningMessageModalEl = document.getElementById('winner-message-modal')
 
 let gameOver = false;
 
@@ -172,11 +173,13 @@ cellEL.forEach((cell) =>
 
     cell.textContent = mark;
 
+    // dynamically changes the displayed active marker to the current players marker
     activeMarkerEl.textContent = game.getActivePlayer().mark
 
     if (game.checkWinner(Gameboard.getBoard(), mark)) {
       console.log(`Game Over!. The winner is ${game.activePlayer}`);
       gameOver = true;
+      winningMessageModalEl.classList.add('show')
     }
   })
 );

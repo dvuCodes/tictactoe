@@ -10,6 +10,7 @@ body {
   font-family: 'Montserrat', sans-serif;
   min-height: 100vh;
   padding-top: 3rem;
+  color: whitesmoke;
 }
 
 header {
@@ -191,7 +192,7 @@ main {
 
 .winner-message-modal {
   position: absolute;
-  display: flex;
+  display: none;
   flex-direction: column;
   margin: 0;
   width: 300px;
@@ -200,6 +201,7 @@ main {
   background-color: #315c6d;
   text-align: center;
   padding: 1em;
+  box-shadow: 0 6px 2px #172931;
 }
 
 .winner-message-modal h1 {
@@ -215,6 +217,6 @@ main {
   cursor: pointer;
 }
 
-.hidden {
-  display: hidden;
+.show {
+  display: flex;
 }
