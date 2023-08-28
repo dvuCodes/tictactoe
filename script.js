@@ -1,5 +1,5 @@
 "use strict";
-import Cell from "./utils/Cell.js";
+import Cell from "./src/utils/Cell.js";
 
 const boardContainerEl = document.getElementById("board-container");
 let gameOver = false;
