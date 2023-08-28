@@ -14,17 +14,17 @@
 </head>
 
 <body>
-  <header>
-    <h1>A Tic Tac Toe Game</h1>
-  </header>
 
-  <section class="game-info-container">
-    <div class="mark-container">XO</div>
-    <div class="turn-display">X turn</div>
+  <header class="game-info-container">
+    <div class="game-logo">
+      <img class="logo-img" src="./src/images/icons8-x-80.png" />
+      <img class="logo-img" src="./src/images/icons8-o-50.png" />
+    </div>
+    <div class="turn-display"><span id="active-marker-el">X</span> turn</div>
     <button class="reset-btn">
-      <img src="./src/images/reset-svgrepo-com.svg" alt="reset-game-button-icon">
+      <img class="reset-btn-icon" src="./src/images/reset-svgrepo-com.svg" alt="reset-game-button-icon">
     </button>
-  </section>
+  </header>
 
   <main>
     <div class="board-container" id="board-container"></div>
@@ -34,6 +34,9 @@
     <div class="score-ties">TIES: <span id="tie-score">0</span></div>
     <div class="score-o">O: <span id="o-score">0</span></div>
   </section>
+  <footer>
+    <h3>Dat Vu @2023</h3>
+  </footer>
   <script src="script.js" type="module"></script>
 </body>
 
