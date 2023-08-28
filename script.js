@@ -179,6 +179,14 @@ function GameFlow(playerOneName = "Player One", playerTwoName = "Player Two") {
     return isWinning;
   };
 
+  const checkTie = (board) => {
+    const isTie = board.every((row) =>
+      row.every((cell) => cell.getValue() !== "")
+    );
+
+    return isTie;
+  };
+
   const dropMark = (row, column) => {
     const cell = Gameboard.getCell(row, column);
     const mark = cell.getValue();
@@ -189,7 +197,14 @@ function GameFlow(playerOneName = "Player One", playerTwoName = "Player Two") {
     } else return alert("This spot is already taken");
   };
 
-  return { dropMark, switchPlayer, printRound, checkWinner, getActivePlayer };
+  return {
+    dropMark,
+    switchPlayer,
+    printRound,
+    checkWinner,
+    getActivePlayer,
+    checkTie,
+  };
 }
 
 Gameboard.renderDOMBoard();
@@ -217,14 +232,21 @@ cellEL.forEach((cell) =>
     // dynamically changes the displayed active marker to the current players marker
     activeMarkerEl.textContent = game.getActivePlayer().mark;
 
-    // checks for a winner
+    // checks for a winner or tie
     if (game.checkWinner(Gameboard.getBoard(), mark)) {
       console.log(`Game Over!. The winner is ${game.getActivePlayer().name}`);
       GAMEOVER = true;
       winningMessageModalEl.classList.add("show");
       // resets board state
       Gameboard.resetBoardArray();
+    } else if (game.checkTie(Gameboard.getBoard())) {
+      console.log(`Game Over!. It's a tie!`);
+      GAMEOVER = true;
+      winningMessageModalEl.classList.add("show");
+      // resets board state
+      Gameboard.resetBoardArray();
     }
+
     // if there game is not over, switch players
     if (!GAMEOVER && mark !== "") {
       game.switchPlayer();
