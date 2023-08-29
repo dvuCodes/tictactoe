@@ -1,0 +1,9 @@
+terminalState = win || tie || lose
+win = +10
+tie = 0
+lose = -10
+
+//return a value if teriminal state is found(w/t/l)
+//find available spots
+//call the minimax function on each available spot (recurssion) 
+//evaluate the returning values from each 
