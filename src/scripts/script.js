@@ -1,5 +1,11 @@
 "use strict";
-import Cell from "./src/utils/Cell.js";
+import Cell from "./src/scripts/utils/Cell.js";
+
+const INITIAL_SCORE = {
+  playerOne: 0,
+  tie: 0,
+  playerTwo: 0,
+};
 
 let GAMEOVER = false;
 
@@ -10,6 +16,13 @@ const closeModalBtn = document.getElementById("close-modal-btn");
 const xScoreEl = document.getElementById("x-score");
 const tieScoreEl = document.getElementById("tie-score");
 const oScoreEl = document.getElementById("o-score");
+
+// function to update the score
+const updateScore = (score) => {
+  xScoreEl.textContent = score.playerOne;
+  tieScoreEl.textContent = score.tie;
+  oScoreEl.textContent = score.playerTwo;
+};
 
 // function to render the gameboard
 const Gameboard = (() => {
@@ -79,31 +92,6 @@ const Gameboard = (() => {
     resetBoardArray,
   };
 })();
-
-const keepScore = (() => {
-    // function to update the score
-  let playerOneScore = 0
-  let playerTwoScore = 0
-  let tieScore = 0
-
-  const incrementPlayerOneScore = () => playerOneScore++
-  const incrementPlayerTwoScore = () => playerTwoScore++
-  const incrementTieScore = () => tieScore++
-
-
-  const resetScore =() => {
-    playerOneScore = 0
-    playerTwoScore = 0
-    tieScore = 0
-  }
-  
-const updateDOMScore = () => {
-  xScoreEl.textContent = playerOneScore;
-  tieScoreEl.textContent = tieScore;
-  oScoreEl.textContent = playerTwoScore;
-};
-  return {updateDOMScore, incrementPlayerOneScore, incrementPlayerTwoScore, incrementTieScore, resetScore}
-})()
 
 function GameFlow(playerOneName = "Player One", playerTwoName = "Player Two") {
   const players = [
@@ -209,7 +197,6 @@ function GameFlow(playerOneName = "Player One", playerTwoName = "Player Two") {
     } else return alert("This spot is already taken");
   };
 
-
   return {
     dropMark,
     switchPlayer,
@@ -220,27 +207,11 @@ function GameFlow(playerOneName = "Player One", playerTwoName = "Player Two") {
   };
 }
 
-
-
 Gameboard.renderDOMBoard();
 const game = GameFlow();
-const { checkWinner } = game
 
 // Iterating thorugh our cells and giving them the function to dropMark and DOM will update from the board array itself.
 const cellEL = document.querySelectorAll(".cell");
-
-const disableCellClick = () => {
-  for(let cell of cellEL) {
-    cell.classList.add('no-click')
-  }
-}
-
-const enableCellClick = () => {
-    for(let cell of cellEL) {
-    cell.classList.remove('no-click')
-  }
-}
-
 cellEL.forEach((cell) =>
   cell.addEventListener("click", (e) => {
     const row = +e.target.dataset.rows;
@@ -253,34 +224,27 @@ cellEL.forEach((cell) =>
 
     const selectedCell = Gameboard.getCell(row, columns);
     const mark = selectedCell.getValue();
-    const isWinner = game.checkWinner(Gameboard.getBoard(), mark)
 
     const markIcon = mark === "X" ? "cross-icon.png" : "circle-icon.png";
 
-    cell.textContent = mark
+    cell.innerHTML = `<img class="mark-icons" src="./src/images/${markIcon}" />`;
 
     // dynamically changes the displayed active marker to the current players marker
     activeMarkerEl.textContent = game.getActivePlayer().mark;
 
     // checks for a winner or tie
-    if (isWinner) {
+    if (game.checkWinner(Gameboard.getBoard(), mark)) {
       console.log(`Game Over!. The winner is ${game.getActivePlayer().name}`);
       GAMEOVER = true;
-      mark === "X" ? keepScore.incrementPlayerOneScore() : keepScore.incrementPlayerTwoScore()
-      keepScore.updateDOMScore()
-      disableCellClick()
       winningMessageModalEl.classList.add("show");
       // resets board state
       Gameboard.resetBoardArray();
     } else if (game.checkTie(Gameboard.getBoard())) {
       console.log(`Game Over!. It's a tie!`);
       GAMEOVER = true;
-      keepScore.incrementTieScore()
-      keepScore.updateDOMScore()
-      disableCellClick()
       winningMessageModalEl.classList.add("show");
       // resets board state
-      Gameboard.resetBoardArray()
+      Gameboard.resetBoardArray();
     }
 
     // if there game is not over, switch players
@@ -288,9 +252,22 @@ cellEL.forEach((cell) =>
       game.switchPlayer();
     }
 
+    if (GAMEOVER) {
+      if (mark === "X") {
+        INITIAL_SCORE.playerOne++;
+        Gameboard.resetBoardArray();
+      } else if (mark === "O") {
+        INITIAL_SCORE.playerTwo++;
+        Gameboard.resetBoardArray();
+      } else {
+        INITIAL_SCORE.tie++;
+        Gameboard.renderBoardArray();
+      }
+
+      updateScore(INITIAL_SCORE);
+    }
     // debug
     Gameboard.printBoard();
-    console.log({ checkWinner })
   })
 );
 
@@ -300,14 +277,11 @@ closeModalBtn.addEventListener("click", () => {
     Gameboard.resetDOMBoard();
     GAMEOVER = false;
   }, 1000);
-  enableCellClick()
 });
 
 document.getElementById("reset-btn").addEventListener("click", () => {
   Gameboard.resetDOMBoard();
   Gameboard.resetBoardArray();
-  keepScore.resetScore()
-    keepScore.updateDOMScore();
-  enableCellClick()
+  updateScore(INITIAL_SCORE);
   GAMEOVER = false;
 });

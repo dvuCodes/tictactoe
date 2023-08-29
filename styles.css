@@ -230,6 +230,8 @@ main {
   cursor: pointer;
 }
 
+/* utility */
+
 .show {
   display: flex;
 }
@@ -237,4 +239,8 @@ main {
 .mark-icons {
   width: 50%;
   height: 50%;
+}
+
+.no-click {
+  pointer-events: none;
 }
