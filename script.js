@@ -1,12 +1,6 @@
 "use strict";
 import Cell from "./src/utils/Cell.js";
 
-const INITIAL_SCORE = {
-  playerOne: 0,
-  tie: 0,
-  playerTwo: 0,
-};
-
 let GAMEOVER = false;
 
 const boardContainerEl = document.getElementById("board-container");
@@ -16,13 +10,6 @@ const closeModalBtn = document.getElementById("close-modal-btn");
 const xScoreEl = document.getElementById("x-score");
 const tieScoreEl = document.getElementById("tie-score");
 const oScoreEl = document.getElementById("o-score");
-
-// function to update the score
-const updateScore = (score) => {
-  xScoreEl.textContent = score.playerOne;
-  tieScoreEl.textContent = score.tie;
-  oScoreEl.textContent = score.playerTwo;
-};
 
 // function to render the gameboard
 const Gameboard = (() => {
@@ -92,6 +79,24 @@ const Gameboard = (() => {
     resetBoardArray,
   };
 })();
+
+const keepScore = (() => {
+    // function to update the score
+  let playerOneScore = 0
+  let playerTwoScore = 0
+  let tieScore = 0
+
+  const incrementPlayerOneScore = () => playerOneScore++
+  const incrementPlayerTwoScore = () => playerTwoScore++
+  const incrementTieScore = () => tieScore++
+  
+const updateDOMScore = () => {
+  xScoreEl.textContent = playerOneScore;
+  tieScoreEl.textContent = tieScore;
+  oScoreEl.textContent = playerTwoScore;
+};
+  return {updateDOMScore, incrementPlayerOneScore, incrementPlayerTwoScore, incrementTieScore}
+})()
 
 function GameFlow(playerOneName = "Player One", playerTwoName = "Player Two") {
   const players = [
@@ -197,6 +202,7 @@ function GameFlow(playerOneName = "Player One", playerTwoName = "Player Two") {
     } else return alert("This spot is already taken");
   };
 
+
   return {
     dropMark,
     switchPlayer,
@@ -207,8 +213,11 @@ function GameFlow(playerOneName = "Player One", playerTwoName = "Player Two") {
   };
 }
 
+
+
 Gameboard.renderDOMBoard();
 const game = GameFlow();
+const { checkWinner } = game
 
 // Iterating thorugh our cells and giving them the function to dropMark and DOM will update from the board array itself.
 const cellEL = document.querySelectorAll(".cell");
@@ -224,24 +233,29 @@ cellEL.forEach((cell) =>
 
     const selectedCell = Gameboard.getCell(row, columns);
     const mark = selectedCell.getValue();
+    const isWinner = game.checkWinner(Gameboard.getBoard(), mark)
 
     const markIcon = mark === "X" ? "cross-icon.png" : "circle-icon.png";
 
-    cell.innerHTML = `<img class="mark-icons" src="./src/images/${markIcon}" />`;
+    cell.textContent = mark
 
     // dynamically changes the displayed active marker to the current players marker
     activeMarkerEl.textContent = game.getActivePlayer().mark;
 
     // checks for a winner or tie
-    if (game.checkWinner(Gameboard.getBoard(), mark)) {
+    if (isWinner) {
       console.log(`Game Over!. The winner is ${game.getActivePlayer().name}`);
       GAMEOVER = true;
+      mark === "X" ? keepScore.incrementPlayerOneScore() : keepScore.incrementPlayerTwoScore()
+      keepScore.updateDOMScore()
       winningMessageModalEl.classList.add("show");
       // resets board state
       Gameboard.resetBoardArray();
     } else if (game.checkTie(Gameboard.getBoard())) {
       console.log(`Game Over!. It's a tie!`);
       GAMEOVER = true;
+      keepScore.incrementTieScore()
+      keepScore.updateDOMScore()
       winningMessageModalEl.classList.add("show");
       // resets board state
       Gameboard.resetBoardArray();
@@ -252,22 +266,9 @@ cellEL.forEach((cell) =>
       game.switchPlayer();
     }
 
-    if (GAMEOVER) {
-      if (mark === "X") {
-        INITIAL_SCORE.playerOne++;
-        Gameboard.resetBoardArray();
-      } else if (mark === "O") {
-        INITIAL_SCORE.playerTwo++;
-        Gameboard.resetBoardArray();
-      } else {
-        INITIAL_SCORE.tie++;
-        Gameboard.renderBoardArray();
-      }
-
-      updateScore(INITIAL_SCORE);
-    }
     // debug
     Gameboard.printBoard();
+    console.log({ checkWinner })
   })
 );
 
@@ -282,6 +283,6 @@ closeModalBtn.addEventListener("click", () => {
 document.getElementById("reset-btn").addEventListener("click", () => {
   Gameboard.resetDOMBoard();
   Gameboard.resetBoardArray();
-  updateScore(INITIAL_SCORE);
+  keepScore.updateDOMScore();
   GAMEOVER = false;
 });

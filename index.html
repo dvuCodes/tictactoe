@@ -1,49 +1,46 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>TicTacToe</title>
-    <link rel="stylesheet" href="styles.css" />
 
-    <!-- fonts  -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;800&display=swap"
-      rel="stylesheet" />
-  </head>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TicTacToe</title>
+  <link rel="stylesheet" href="styles.css" />
 
-  <body>
-    <header class="game-info-container">
-      <div class="game-logo">
-        <img class="logo-img" src="./src/images/icons8-x-80.png" />
-        <img class="logo-img" src="./src/images/icons8-o-50.png" />
-      </div>
-      <div class="turn-display"><span id="active-marker-el">X</span> TURN</div>
-      <button class="reset-btn" id="reset-btn">
-        <img
-          class="reset-btn-icon"
-          src="./src/images/reset-svgrepo-com.svg"
-          alt="reset-game-button-icon" />
-      </button>
-    </header>
+  <!-- fonts  -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;800&display=swap" rel="stylesheet" />
+</head>
 
-    <main>
-      <div class="board-container" id="board-container"></div>
-      <aside class="winner-message-modal" id="winner-message-modal">
-        <button class="close-modal-btn" id="close-modal-btn">X</button>
-        <h1>Congrats you won</h1>
-      </aside>
-    </main>
-    <section class="score-container">
-      <div class="score-x">X: <span id="x-score">0</span></div>
-      <div class="score-ties">TIES: <span id="tie-score">0</span></div>
-      <div class="score-o">O: <span id="o-score">0</span></div>
-    </section>
-    <footer>
-      <h3>Dat Vu @2023</h3>
-    </footer>
-    <script src="script.js" type="module"></script>
-  </body>
+<body>
+  <header class="game-info-container">
+    <div class="game-logo">
+      <img class="logo-img" src="/src/images/icons8-x-80.png" />
+      <img class="logo-img" src="/src/images/icons8-o-50.png" />
+    </div>
+    <div class="turn-display"><span id="active-marker-el">X</span> TURN</div>
+    <button class="reset-btn" id="reset-btn">
+      <img class="reset-btn-icon" src="/src/images/reset-svgrepo-com.svg" alt="reset-game-button-icon" />
+    </button>
+  </header>
+
+  <main>
+    <div class="board-container" id="board-container"></div>
+    <aside class="winner-message-modal" id="winner-message-modal">
+      <button class="close-modal-btn" id="close-modal-btn">X</button>
+      <h1>Congrats you won</h1>
+    </aside>
+  </main>
+  <section class="score-container">
+    <div class="score-x">X: <span id="x-score">0</span></div>
+    <div class="score-ties">TIES: <span id="tie-score">0</span></div>
+    <div class="score-o">O: <span id="o-score">0</span></div>
+  </section>
+  <footer>
+    <h3>Dat Vu @2023</h3>
+  </footer>
+  <script src="script.js" type="module"></script>
+</body>
+
 </html>
